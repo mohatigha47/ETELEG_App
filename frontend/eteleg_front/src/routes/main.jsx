@@ -3,6 +3,9 @@ import Dashboard from '../components/dashBoard';
 import NavBar from '../components/navbar';
 import axios from 'axios';
 import ProjectMetricsChart from '../components/projectMetrics';
+import SidePanel from '../components/sidePanel'; // Import the SidePanel component
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 function Main() {
   const [projects, setProjects] = useState([]);
@@ -13,6 +16,11 @@ function Main() {
     completedProjects: 0,
     activeClients: 0
   });
+  const [isSidePanelVisible, setSidePanelVisible] = useState(false);
+
+  const toggleSidePanel = () => {
+    setSidePanelVisible(!isSidePanelVisible);
+  };
 
   const extractProjectMetrics = (projects) => {
     const totalProjects = projects.length;
@@ -42,6 +50,11 @@ function Main() {
         const recentProjects = getMostRecentProjects(projects);
         setRecentProjects(recentProjects);
         extractProjectMetrics(projects);
+        const token = Cookies.get('token');
+        if (token) {
+          const decodedToken = jwtDecode(token);
+          // console.log(decodedToken)
+        }
       } catch (err) {
         console.log(err);
       }
@@ -51,15 +64,24 @@ function Main() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App h-screen flex flex-col">
       <NavBar />
-      <div className="container mx-auto p-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Dashboard metrics={metrics} projects={recentProjects} />
-          </div>
-          <div>
-            <ProjectMetricsChart metrics={metrics} />
+      <div className="flex flex-1">
+        {/* SIDE PANEL */}
+        <div className='h-full w-16'>
+        </div>
+        <div className='absolute h-full '>
+          <SidePanel />
+        </div>
+        {/* MAIN CONTENT */}
+        <div className="container mx-auto p-4 flex-1">
+          <div className="grid grid-cols-2">
+            <div>
+              <Dashboard metrics={metrics} projects={recentProjects} />
+            </div>
+            <div>
+              <ProjectMetricsChart metrics={metrics} />
+            </div>
           </div>
         </div>
       </div>

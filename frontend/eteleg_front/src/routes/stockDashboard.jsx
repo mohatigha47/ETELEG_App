@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavBar from '../components/navbar';
 import { Bar } from 'react-chartjs-2';
+import SidePanel from '../components/sidePanel';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -104,6 +105,12 @@ const StockDashboard = () => {
     return (
         <div>
             <NavBar />
+            {/* SIDE PANEL */}
+            <div className='h-full w-16'>
+            </div>
+            <div className='absolute h-full '>
+                <SidePanel />
+            </div>
             <div className="min-h-screen bg-gray-100 p-4">
                 <div className="bg-white p-6 rounded-lg shadow-lg max-w-6xl mx-auto">
                     <h2 className="text-2xl font-bold mb-6 text-gray-800">Stock Management Dashboard</h2>

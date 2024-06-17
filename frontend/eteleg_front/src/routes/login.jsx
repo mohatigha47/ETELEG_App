@@ -1,9 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import Cookies from 'js-cookie';
 
 const Login = () => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState('');
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
@@ -12,9 +17,29 @@ const Login = () => {
         setPassword(e.target.value);
     };
 
-    function login() {
-        console.log(email)
-        console.log(password)
+    const naviagte = useNavigate();
+
+    const login = async () => {
+        try {
+            const response = await axios.post('http://localhost:3001/login', {
+                email: email,
+                password: password
+            });
+            // // Handle successful login (e.g., store token, redirect)
+            // console.log('Login successful:', response.data);
+            // Handle successful login
+            const token = response.data.token;
+            // localStorage.setItem('token', token); // Store the token in localStorage
+            Cookies.set('token', token, { expires: 1 });
+            // Decode the token to get user information
+            const decodedToken = jwtDecode(token);
+            // console.log('User information:', decodedToken);
+            naviagte("/")
+        } catch (err) {
+            // Handle error (e.g., show error message)
+            setError('Login failed. Please check your credentials.');
+            console.error(err);
+        }
     }
 
     return (

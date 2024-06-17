@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 });
 
 app.put('/addUser', async (req, res) => {
-    const { fullName, email, password } = req.body;
+    const { fullName, email,role, password } = req.body;
 
     try {
         // Check if the user already exists
@@ -55,6 +55,7 @@ app.put('/addUser', async (req, res) => {
         const newUser = new User({
             fullName,
             email,
+            role,
             password: hashedPassword
         });
 
@@ -83,7 +84,7 @@ app.post('/login', async (req, res) => {
         }
 
         // Generate a JWT token
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.json({ token });
     } catch (error) {
@@ -91,6 +92,50 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Login failed.' });
     }
 });
+
+app.get('/users', async (req, res) => {
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to fetch users.' });
+    }
+});
+
+// GET user by ID
+app.get('/users/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+// Update User Route
+app.put('/updateUser/:id', async (req, res) => {
+    const userId = req.params.id;
+    const updates = req.body;
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true, runValidators: true });
+
+        if (!updatedUser) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+
+        res.send(updatedUser);
+    } catch (error) {
+        res.status(400).send({ error: 'Error updating user', details: error.message });
+    }
+});
+
+
 
 app.get('/projects', async (req, res) => {
     try {
