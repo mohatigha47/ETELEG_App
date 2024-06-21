@@ -10,11 +10,9 @@ const navigate = useNavigate()
                 <div className="flex justify-between items-center">
                     <div className="text-white text-lg font-bold cursor-pointer" onClick={()=>navigate("/")}>ETELEG</div>
                     <div className="flex space-x-4">
-                        <a href="#" className="text-gray-300 hover:text-white transition duration-300">Dashboard</a>
-                        <a href="#" className="text-gray-300 hover:text-white transition duration-300">Projects</a>
+                        <a href="/stock" className="text-gray-300 hover:text-white transition duration-300">Dashboard</a>
+                        <a href="/projects" className="text-gray-300 hover:text-white transition duration-300">Projects</a>
                         <a href="#" className="text-gray-300 hover:text-white transition duration-300">Clients</a>
-                        <a href="#" className="text-gray-300 hover:text-white transition duration-300">Reports</a>
-                        <a href="#" className="text-gray-300 hover:text-white transition duration-300">Settings</a>
                     </div>
                 </div>
             </div>

@@ -42,6 +42,12 @@ const AllProducts = () => {
             <div className="min-h-screen bg-gray-100 p-4">
                 <div className="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
                     <h2 className="text-2xl font-bold mb-6 text-gray-800">All Products</h2>
+                    <button
+                        onClick={() => navigate("/products/create")}
+                        className="bg-gray-900 text-white py-2 px-4 rounded-xl my-2"
+                    >
+                        Add product
+                    </button>
                     <table className="min-w-full bg-white border border-gray-200">
                         <thead>
                             <tr>

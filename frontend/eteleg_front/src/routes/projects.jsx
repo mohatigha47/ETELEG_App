@@ -11,7 +11,7 @@ const Projects = () => {
 
   const [projects, setProjects] = useState()
 
-
+const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -54,6 +54,12 @@ const Projects = () => {
       <div className="min-h-screen bg-gray-100 p-4">
         <div className="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold mb-6 text-gray-800">Project Management</h2>
+          <button
+            onClick={() => navigate("/projects/add")}
+            className="bg-gray-900 text-white py-2 px-4 rounded-xl my-4"
+          >
+            Add project
+          </button>
           <table className="min-w-full bg-white border border-gray-200">
             <thead>
               <tr>

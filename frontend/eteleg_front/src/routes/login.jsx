@@ -72,6 +72,9 @@ const Login = () => {
                         placeholder="Enter your password"
                     />
                 </div>
+                <div className="text-red-500 mb-4">
+                    {error}
+                </div>
                 <div className="flex items-center justify-between">
                     <button
                         onClick={login}
